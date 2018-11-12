@@ -1,4 +1,6 @@
 ﻿using System;
+using CommonSubgraphFinder.Models;
+using CommonSubgraphFinder.Services;
 
 namespace CommonSubgraphFinder
 {
@@ -7,8 +9,9 @@ namespace CommonSubgraphFinder
         static void Main(string[] args)
         {
             var filePath = "./../../../simpleGraph.csv";
-            var graph = new Graph.Graph(filePath);
-
+            var graph = GraphFactory.CreateFromCsvFile(filePath);
+            var weighted = new WeightedGraph(graph);
+            weighted.WeightMatrix[0, 0] = 10;
             Console.ReadKey();
         }
     }
