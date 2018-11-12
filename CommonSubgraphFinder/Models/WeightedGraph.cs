@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using CsvHelper;
 
@@ -47,6 +48,15 @@ namespace CommonSubgraphFinder.Models
                         WeightMatrix[u, v] = edgeWeight;
                     }
                 }
+            }
+        }
+
+        public IEnumerable<int> NeighboursOf(int vertex)
+        {
+            for (int u = 0; u < VerticesCount; u++)
+            {
+                if (AdjacencyMatrix[vertex, u])
+                    yield return u;
             }
         }
     }
