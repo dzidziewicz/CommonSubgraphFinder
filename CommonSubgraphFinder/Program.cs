@@ -3,6 +3,7 @@ using System.Diagnostics;
 using CommonSubgraphFinder.MaxClique;
 using CommonSubgraphFinder.Models;
 using CommonSubgraphFinder.Services;
+using CommonSubgraphFinder.Partitioning;
 
 namespace CommonSubgraphFinder
 {
@@ -16,9 +17,11 @@ namespace CommonSubgraphFinder
             weighted.WeightMatrix[0, 0] = 10;
 
             var stopwatch = Stopwatch.StartNew();
-            var maxClique = MaxCliqueFinder.FindMaxClique(weighted);
+            //var maxClique = MaxCliqueFinder.FindMaxClique(weighted);
+            var subgraphs = GraphPartitioner.PartitionGraph(weighted, 4);
             stopwatch.Stop();
             Console.WriteLine($"Elapsed: {stopwatch.ElapsedMilliseconds} ms");
+            Console.WriteLine();
             Console.ReadKey();
         }
     }

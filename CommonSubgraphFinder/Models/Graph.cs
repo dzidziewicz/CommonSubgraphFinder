@@ -16,7 +16,7 @@ namespace CommonSubgraphFinder.Models
             AdjacencyMatrix = new bool[verticesCount, verticesCount];
         }
 
-        protected Graph(bool[,] adjacencyMatrix)
+        public Graph(bool[,] adjacencyMatrix)
         {
             if(adjacencyMatrix.GetLength(0) != adjacencyMatrix.GetLength(1))
                 throw new Exception("Invalid adjacency matrix");
