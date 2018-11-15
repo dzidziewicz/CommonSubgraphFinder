@@ -7,7 +7,7 @@ namespace CommonSubgraphFinder.Models
 {
     public class WeightedGraph : Graph
     {
-        public int[,] WeightMatrix { get; }
+        public int[,] WeightMatrix { get; set; }
 
         public WeightedGraph(int verticesCount) : base(verticesCount)
         {

@@ -72,8 +72,10 @@ namespace CommonSubgraphFinder.Partitioning
         {
             int[] vertices = GetVerticesForColor(color);
             bool[,] subgraphAdjecencyMatrix = GetCuttedMatrix(this._graph.AdjacencyMatrix, vertices);
-            var graph = new Graph(subgraphAdjecencyMatrix);
-            return new WeightedGraph(graph);
+            int[,] subgraphWeightMatrix = GetCuttedMatrix(this._graph.WeightMatrix, vertices);
+            var graph = new WeightedGraph(new Graph(subgraphAdjecencyMatrix));
+            graph.WeightMatrix = subgraphWeightMatrix;
+            return graph;
         }
 
         private T[,] GetCuttedMatrix<T>(T[,] matrix, int[] indexes)
