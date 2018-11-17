@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using CommonSubgraphFinder.MaxClique;
@@ -36,23 +37,29 @@ namespace CommonSubgraphFinder
             Console.WriteLine($"Elapsed: {stopwatch.ElapsedMilliseconds} ms");
             Console.WriteLine();
 
+            ShowResults(gVertices, hVertices);
+
+            Console.ReadKey();
+        }
+
+        private static void ShowResults(IReadOnlyCollection<int> gVertices, IReadOnlyCollection<int> hVertices)
+        {
             Console.WriteLine("Common subgraph found:");
             Console.WriteLine("G vertices:");
+
             foreach (var v in gVertices)
-            {
                 Console.Write(v + " ");
-            }
 
             Console.WriteLine();
-
             Console.WriteLine("H vertices:");
+
             foreach (var v in hVertices)
-            {
                 Console.Write(v + " ");
-            }
 
             Console.WriteLine();
-            Console.ReadKey();
+
+            const string outputFilePath = "./../../../Files/result.csv";
+            CsvWriterService.WriteToFile(outputFilePath, gVertices, hVertices);
         }
     }
 }
