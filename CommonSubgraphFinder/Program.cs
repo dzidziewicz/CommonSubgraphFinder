@@ -11,13 +11,13 @@ namespace CommonSubgraphFinder
     {
         static void Main(string[] args)
         {
-            var filePath = "./../../../Files/k30.csv";
+            var filePath = "./../../../Files/k10.csv";
             var graph = GraphFactory.CreateFromCsvFile(filePath);
             var weighted = new WeightedGraph(graph);
             weighted.WeightMatrix[0, 0] = 10;
 
             var stopwatch = Stopwatch.StartNew();
-            var maxClique = MaxCliqueFinder.FindMaxClique(weighted);
+            var maxClique = MaxCliqueFinder.FindMaxClique(weighted, false);
 
             // Aproximate 
 
