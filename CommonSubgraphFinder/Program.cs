@@ -21,7 +21,7 @@ namespace CommonSubgraphFinder
             //weighted.WeightMatrix[0, 0] = 10;
 
             var stopwatch = Stopwatch.StartNew();
-            var maxClique = MaxCliqueFinder.FindMaxClique(modularProduct);
+            var maxClique = MaxCliqueFinder.FindMaxClique(weighted, false);
 
             // Aproximate 
 
