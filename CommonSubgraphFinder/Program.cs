@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using CommonSubgraphFinder.MaxClique;
 using CommonSubgraphFinder.Models;
 using CommonSubgraphFinder.Services;
@@ -23,6 +24,8 @@ namespace CommonSubgraphFinder
             var stopwatch = Stopwatch.StartNew();
             var maxClique = MaxCliqueFinder.FindMaxClique(modularProduct, false);
 
+            ModularProductService.MapMpToBaseGraphs(g, h, maxClique.ToList(), out var gVertices, out var hVertices);
+
             // Aproximate 
 
             //var subgraphs = GraphPartitioner.PartitionGraph(weighted, 6);
@@ -31,6 +34,23 @@ namespace CommonSubgraphFinder
 
             stopwatch.Stop();
             Console.WriteLine($"Elapsed: {stopwatch.ElapsedMilliseconds} ms");
+            Console.WriteLine();
+
+            Console.WriteLine("Common subgraph found:");
+            Console.WriteLine("G vertices:");
+            foreach (var v in gVertices)
+            {
+                Console.Write(v + " ");
+            }
+
+            Console.WriteLine();
+
+            Console.WriteLine("H vertices:");
+            foreach (var v in hVertices)
+            {
+                Console.Write(v + " ");
+            }
+
             Console.WriteLine();
             Console.ReadKey();
         }
