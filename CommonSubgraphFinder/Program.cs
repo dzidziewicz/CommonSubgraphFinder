@@ -11,12 +11,17 @@ namespace CommonSubgraphFinder
 {
     internal class Program
     {
+        const string fileName1 = "simpleGraph.csv";
+        const string fileName2 = "simpleGraph.csv";
+
         private static void Main(string[] args)
         {
-            const string filePath1 = "./../../../Files/simpleGraph.csv";
-            const string filePath2 = "./../../../Files/simpleGraph.csv";
-            var g = GraphFactory.CreateFromCsvFile(filePath1);
-            var h = GraphFactory.CreateFromCsvFile(filePath2);
+            string filePath1 = PathService.GetInputFilePath(fileName1);
+            string filePath2 = PathService.GetInputFilePath(fileName2);
+            string resultPath = PathService.GetResultFilePath(fileName1, fileName2);
+            
+            var g = CsvFilesService.CreateGraphFromCsv(filePath1);
+            var h = CsvFilesService.CreateGraphFromCsv(filePath2);
 
             var modularProduct = ModularProductService.GetModularProductForVertexMaxGraph(g, h);
             //var weighted = new WeightedGraph(graph);
@@ -25,7 +30,7 @@ namespace CommonSubgraphFinder
             var stopwatch = Stopwatch.StartNew();
             var maxClique = MaxCliqueFinder.FindMaxClique(modularProduct, false);
 
-            ModularProductService.MapMpToBaseGraphs(g, h, maxClique.ToList(), out var gVertices, out var hVertices);
+            var mapping = ModularProductService.MapMpToBaseGraphs(g, h, maxClique.ToList());
 
             // Aproximate 
 
@@ -37,29 +42,28 @@ namespace CommonSubgraphFinder
             Console.WriteLine($"Elapsed: {stopwatch.ElapsedMilliseconds} ms");
             Console.WriteLine();
 
-            ShowResults(gVertices, hVertices);
+            ShowResults(mapping, resultPath);
 
             Console.ReadKey();
         }
 
-        private static void ShowResults(IReadOnlyCollection<int> gVertices, IReadOnlyCollection<int> hVertices)
+        private static void ShowResults(CommonSubgraphMapping mapping, string outputFilePath)
         {
             Console.WriteLine("Common subgraph found:");
             Console.WriteLine("G vertices:");
 
-            foreach (var v in gVertices)
+            foreach (var v in mapping.FirstGraphVertices)
                 Console.Write(v + " ");
 
             Console.WriteLine();
             Console.WriteLine("H vertices:");
 
-            foreach (var v in hVertices)
+            foreach (var v in mapping.SecondGraphVertices)
                 Console.Write(v + " ");
 
             Console.WriteLine();
 
-            const string outputFilePath = "./../../../Files/result.csv";
-            CsvWriterService.WriteToFile(outputFilePath, gVertices, hVertices);
+            CsvFilesService.WriteCommonSubgraphToCsv(outputFilePath, mapping);
         }
     }
 }

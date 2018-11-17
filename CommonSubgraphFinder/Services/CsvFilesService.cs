@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using CommonSubgraphFinder.Models;
 using CsvHelper;
 
 namespace CommonSubgraphFinder.Services
 {
-    public static class GraphFactory
+    public static class CsvFilesService
     {
-        public static Graph CreateFromCsvFile(string filePath)
+        public static Graph CreateGraphFromCsv(string filePath)
         {
             var rowsCount = CountRows(filePath);
             var graph = new Graph(rowsCount);
@@ -16,7 +17,22 @@ namespace CommonSubgraphFinder.Services
 
             return graph;
         }
-
+        public static void WriteCommonSubgraphToCsv(string filePath,CommonSubgraphMapping commonSubgraph)
+        {
+            using (var csv = new CsvWriter(new StreamWriter(File.OpenWrite(filePath))))
+            {
+                foreach (var v in commonSubgraph.FirstGraphVertices)
+                {
+                    csv.WriteField(v);
+                }
+                csv.NextRecord();
+                foreach (var v in commonSubgraph.SecondGraphVertices)
+                {
+                    csv.WriteField(v);
+                }
+                csv.NextRecord();
+            }
+        }
 
         private static int CountRows(string filePath)
         {

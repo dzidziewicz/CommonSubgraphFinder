@@ -69,16 +69,21 @@ namespace CommonSubgraphFinder.Services
             return modularProduct;
         }
 
-        public static void MapMpToBaseGraphs(Graph g, Graph h, IEnumerable<int> mpVertices, out List<int> gVertices, out
-            List<int> hVertices)
+        public static CommonSubgraphMapping MapMpToBaseGraphs(Graph g, Graph h, IEnumerable<int> mpVertices)
         {
-            gVertices = new List<int>();
-            hVertices = new List<int>();
+            var gVertices = new List<int>();
+            var hVertices = new List<int>();
             foreach (var mpVertex in mpVertices)
             {
                 gVertices.Add(mpVertex / g.VerticesCount);
                 hVertices.Add(mpVertex % g.VerticesCount);
             }
+
+            return new CommonSubgraphMapping()
+            {
+                FirstGraphVertices = gVertices,
+                SecondGraphVertices = hVertices
+            };
         }
     }
 }
