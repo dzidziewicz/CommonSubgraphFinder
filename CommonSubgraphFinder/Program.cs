@@ -1,19 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using CommonSubgraphFinder.MaxClique;
 using CommonSubgraphFinder.Models;
 using CommonSubgraphFinder.Services;
-using CommonSubgraphFinder.Partitioning;
 
 namespace CommonSubgraphFinder
 {
     internal class Program
     {
-        const string fileName1 = "simpleGraph.csv";
-        const string fileName2 = "simpleGraph.csv";
-
+        const string fileName1 = "cycle14.csv";
+        const string fileName2 = "cycle5.csv";
+        const bool countVerticesOnly = false;
         private static void Main(string[] args)
         {
             string filePath1 = PathService.GetInputFilePath(fileName1);
@@ -24,11 +22,9 @@ namespace CommonSubgraphFinder
             var h = CsvFilesService.CreateGraphFromCsv(filePath2);
 
             var modularProduct = ModularProductService.GetModularProductForVertexMaxGraph(g, h);
-            //var weighted = new WeightedGraph(graph);
-            //weighted.WeightMatrix[0, 0] = 10;
 
             var stopwatch = Stopwatch.StartNew();
-            var maxClique = MaxCliqueFinder.FindMaxClique(modularProduct, false);
+            var maxClique = MaxCliqueFinder.FindMaxClique(modularProduct, countVerticesOnly);
 
             var mapping = ModularProductService.MapMpToBaseGraphs(g, h, maxClique.ToList());
 

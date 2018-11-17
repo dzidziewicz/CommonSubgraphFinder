@@ -75,8 +75,8 @@ namespace CommonSubgraphFinder.Services
             var hVertices = new List<int>();
             foreach (var mpVertex in mpVertices)
             {
-                gVertices.Add(mpVertex / g.VerticesCount);
-                hVertices.Add(mpVertex % g.VerticesCount);
+                gVertices.Add(mpVertex / h.VerticesCount);
+                hVertices.Add(mpVertex % h.VerticesCount);
             }
 
             return new CommonSubgraphMapping()
