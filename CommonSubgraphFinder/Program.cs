@@ -7,17 +7,21 @@ using CommonSubgraphFinder.Partitioning;
 
 namespace CommonSubgraphFinder
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            var filePath = "./../../../Files/k30.csv";
-            var graph = GraphFactory.CreateFromCsvFile(filePath);
-            var weighted = new WeightedGraph(graph);
-            weighted.WeightMatrix[0, 0] = 10;
+            const string filePath1 = "./../../../Files/simpleGraph.csv";
+            const string filePath2 = "./../../../Files/simpleGraph.csv";
+            var g = GraphFactory.CreateFromCsvFile(filePath1);
+            var h = GraphFactory.CreateFromCsvFile(filePath2);
+
+            var modularProduct = ModularProductService.GetModularProductForVertexMaxGraph(g, h);
+            //var weighted = new WeightedGraph(graph);
+            //weighted.WeightMatrix[0, 0] = 10;
 
             var stopwatch = Stopwatch.StartNew();
-            var maxClique = MaxCliqueFinder.FindMaxClique(weighted);
+            var maxClique = MaxCliqueFinder.FindMaxClique(modularProduct);
 
             // Aproximate 
 

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.IO;
-using CsvHelper;
 
 namespace CommonSubgraphFinder.Models
 {
@@ -30,6 +28,14 @@ namespace CommonSubgraphFinder.Models
                 throw new Exception("Invalid vertex index");
 
             AdjacencyMatrix[vertex1, vertex2] = true;
+        }
+
+        public bool HasEdge(int vertex1, int vertex2)
+        {
+            if (!IsVertexIndexValid(vertex1) || !IsVertexIndexValid(vertex2))
+                throw new Exception("Invalid vertex index");
+
+            return AdjacencyMatrix[vertex1, vertex2];
         }
 
         protected bool IsVertexIndexValid(int v)
