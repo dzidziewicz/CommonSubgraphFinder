@@ -9,11 +9,14 @@ namespace CommonSubgraphFinder.Services
     {
         public static string GetInputFilePath(string fileName) => $"./../../../Files/Inputs/{fileName}";
 
-        public static string GetResultFilePath(string firstGraphFileName, string secondGraphFileName)
+        public static string GetResultFilePath(string firstGraphFileName, string secondGraphFileName, bool countVerticesOnly, bool useExactAlgorithm)
         {
             firstGraphFileName = firstGraphFileName.Replace(".csv", "");
             secondGraphFileName = secondGraphFileName.Replace(".csv", "");
-            return $"./../../../Files/Results/{firstGraphFileName}&{secondGraphFileName}.csv";
+            var graphWeight = countVerticesOnly ? "V" : "VE";
+            var algorithmType = useExactAlgorithm ? "exact" : "approx";
+            
+            return $"./../../../Files/Results/{firstGraphFileName}&{secondGraphFileName}_{algorithmType}_{graphWeight}.csv";
         }
     }
 }

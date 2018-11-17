@@ -9,19 +9,22 @@ namespace CommonSubgraphFinder
 {
     internal class Program
     {
-        const string fileName1 = "cycle14.csv";
-        const string fileName2 = "cycle5.csv";
+        const string fileName1 = "kd1a.csv";
+        const string fileName2 = "kd1b.csv";
         const bool countVerticesOnly = false;
+        const bool useExactAlgorithm = true;
         private static void Main(string[] args)
         {
             string filePath1 = PathService.GetInputFilePath(fileName1);
             string filePath2 = PathService.GetInputFilePath(fileName2);
-            string resultPath = PathService.GetResultFilePath(fileName1, fileName2);
+            string resultPath = PathService.GetResultFilePath(fileName1, fileName2, countVerticesOnly, useExactAlgorithm);
             
             var g = CsvFilesService.CreateGraphFromCsv(filePath1);
             var h = CsvFilesService.CreateGraphFromCsv(filePath2);
 
-            var modularProduct = ModularProductService.GetModularProductForVertexMaxGraph(g, h);
+            var modularProduct = countVerticesOnly
+                ? ModularProductService.GetModularProductForVertexMaxGraph(g, h)
+                : ModularProductService.GetModularProductForVertexPlusEdgesMaxGraph(g, h);
 
             var stopwatch = Stopwatch.StartNew();
             var maxClique = MaxCliqueFinder.FindMaxClique(modularProduct, countVerticesOnly);
