@@ -33,23 +33,32 @@ namespace CommonSubgraphFinder.MaxClique
                 TryAddMaxClique(R);
             }
 
-            foreach (var vertex in P.ToList())
+            foreach (var vertex in P.ToArray()) // Copying P set needed, because P is modified inside the loop.
             {
                 var newR = new HashSet<int>(R);
                 newR.UnionWith(new []{vertex});
-                var newP = new HashSet<int>(P);
-                var neighbours = _graph.NeighboursOf(vertex).ToList();
-                newP.IntersectWith(neighbours);
-                var newX = new HashSet<int>(X);
-                newX.IntersectWith(neighbours);
+                var newP = IntersectWithNeighboursOf(vertex, P);
+                var newX = IntersectWithNeighboursOf(vertex, X);
 
                 BronKerbosch(newR, newP, newX);
 
                 P.Remove(vertex);
-                newX.UnionWith(new []{vertex});
+                newX.Add(vertex);
             }
         }
 
+
+        public HashSet<int> IntersectWithNeighboursOf(int vertex, HashSet<int> set)
+        {
+            HashSet<int> newSet = new HashSet<int>();
+            foreach (var u in set)
+            {
+                if (_graph.AdjacencyMatrix[u, vertex])
+                    newSet.Add(u);
+            }
+
+            return newSet;
+        }
         private void TryAddMaxClique(HashSet<int> R)
         {
             if (_countVerticesOnly)
@@ -65,6 +74,7 @@ namespace CommonSubgraphFinder.MaxClique
                 int maxWeightForNewClique = R.Count + (R.Count * (R.Count - 1) / 2);
                 if (MaxCliqueWeight >= maxWeightForNewClique)
                     return; 
+
                 var cliqueWeight = CalculateCliqueWeight(R);
                 if (cliqueWeight > MaxCliqueWeight)
                 {

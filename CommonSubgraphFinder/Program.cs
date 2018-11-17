@@ -11,7 +11,7 @@ namespace CommonSubgraphFinder
     {
         static void Main(string[] args)
         {
-            var filePath = "./../../../Files/k10.csv";
+            var filePath = "./../../../Files/k20.csv";
             var graph = GraphFactory.CreateFromCsvFile(filePath);
             var weighted = new WeightedGraph(graph);
             weighted.WeightMatrix[0, 0] = 10;
@@ -28,7 +28,6 @@ namespace CommonSubgraphFinder
             stopwatch.Stop();
             Console.WriteLine($"Elapsed: {stopwatch.ElapsedMilliseconds} ms");
             Console.WriteLine();
-            Console.ReadKey();
         }
     }
 }
