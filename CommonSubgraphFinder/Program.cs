@@ -11,10 +11,10 @@ namespace CommonSubgraphFinder
 {
     internal class Program
     {
-        const string FileName1 = "kd1a.csv";
-        const string FileName2 = "kd1b.csv";
+        const string FileName1 = "7_10_A_Drejer.csv";
+        const string FileName2 = "7_10_B_Drejer.csv";
         const bool CountVerticesOnly = true;
-        const bool UseExactAlgorithm = false;
+        const bool UseExactAlgorithm = true;
         private static void Main(string[] args)
         {
             string filePath1 = PathService.GetInputFilePath(FileName1);
