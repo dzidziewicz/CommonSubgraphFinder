@@ -11,10 +11,10 @@ namespace CommonSubgraphFinder
 {
     internal class Program
     {
-        const string FileName1 = "k30.csv";
-        const string FileName2 = "kd4a.csv";
-        const bool CountVerticesOnly = false;
-        const bool UseExactAlgorithm = true;
+        const string FileName1 = "kd1a.csv";
+        const string FileName2 = "kd1b.csv";
+        const bool CountVerticesOnly = true;
+        const bool UseExactAlgorithm = false;
         private static void Main(string[] args)
         {
             string filePath1 = PathService.GetInputFilePath(FileName1);
@@ -30,6 +30,7 @@ namespace CommonSubgraphFinder
 
             var stopwatch = Stopwatch.StartNew();
             HashSet<int> maxClique = new HashSet<int>();
+            int[] maxCliqueMapping = null;
             int maxCliqueWeight = 0;
             if (UseExactAlgorithm)
             {
@@ -38,20 +39,24 @@ namespace CommonSubgraphFinder
             }
             else
             {
-                var subgraphs = GraphPartitioner.PartitionGraph(modularProduct, modularProduct.VerticesCount / (int)Math.Log(modularProduct.VerticesCount));
-                foreach (var subgraph in subgraphs)
+                Console.WriteLine(modularProduct.VerticesCount / (int)Math.Log(modularProduct.VerticesCount));
+                var (subgraphs, subgraphsMappings) = GraphPartitioner.PartitionGraph(modularProduct, modularProduct.VerticesCount / (int)Math.Log(modularProduct.VerticesCount));
+                for(int i = 0; i < subgraphs.Count; i++)
                 {
                     (HashSet<int> clique, int cliqueWeight) =
-                        MaxCliqueFinder.FindMaxCliqueWithWeight(subgraph, CountVerticesOnly);
+                        MaxCliqueFinder.FindMaxCliqueWithWeight(subgraphs[i], CountVerticesOnly);
                     if (cliqueWeight > maxCliqueWeight)
                     {
                         maxCliqueWeight = cliqueWeight;
                         maxClique = clique;
+                        maxCliqueMapping = subgraphsMappings[i];
                     }
                 }
             }
 
-            var mapping = ModularProductService.MapMpToBaseGraphs(g, h, maxClique.ToList());
+            var parsedClique = UseExactAlgorithm ? maxClique.ToList() : maxClique.ToList().Select(subgraphIndex => maxCliqueMapping[subgraphIndex]);
+
+            var mapping = ModularProductService.MapMpToBaseGraphs(g, h, parsedClique);
 
             stopwatch.Stop();
             Console.WriteLine($"Elapsed: {stopwatch.ElapsedMilliseconds} ms");
