@@ -25,6 +25,13 @@ namespace CommonSubgraphFinder.MaxClique
 
             return finder.MaxClique;
         }
+        public static (HashSet<int>, int) FindMaxCliqueWithWeight(WeightedGraph graph, bool countVerticesOnly)
+        {
+            var finder = new MaxCliqueFinder(graph, countVerticesOnly);
+            finder.BronKerbosch(new HashSet<int>(), new HashSet<int>(Enumerable.Range(0, graph.VerticesCount)), new HashSet<int>());
+
+            return (finder.MaxClique, finder.MaxCliqueWeight);
+        }
 
         public void BronKerbosch(HashSet<int> R, HashSet<int> P, HashSet<int> X)
         {
