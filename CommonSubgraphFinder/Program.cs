@@ -11,9 +11,9 @@ namespace CommonSubgraphFinder
 {
     internal class Program
     {
-        const string FileName1 = "8_7_A_Drejer.csv";
-        const string FileName2 = "8_7_B_Drejer.csv";
-        const bool CountVerticesOnly = false;
+        const string FileName1 = "9_12_A_Drejer.csv";
+        const string FileName2 = "9_12_B_Drejer.csv";
+        const bool CountVerticesOnly = true;
         const bool UseExactAlgorithm = true;
         private static void Main(string[] args)
         {
