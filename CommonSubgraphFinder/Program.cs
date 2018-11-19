@@ -11,15 +11,28 @@ namespace CommonSubgraphFinder
 {
     internal class Program
     {
-        const string FileName1 = "9_12_A_Drejer.csv";
-        const string FileName2 = "9_12_B_Drejer.csv";
-        const bool CountVerticesOnly = true;
-        const bool UseExactAlgorithm = true;
         private static void Main(string[] args)
         {
+            Console.WriteLine("Provide graph sizes in form A_B  : ");
+            string sizes = Console.ReadLine();
+            string FileName1 = sizes + "_A_Drejer.csv";
+            string FileName2 = sizes + "_B_Drejer.csv";
+
+            bool CountVerticesOnly = true;
+            Console.WriteLine("Count vertices only (otherwise vertices and edges)? [y/N]");
+            string answer1 = Console.ReadLine();
+            if (answer1 == "n" || answer1 == "N")
+                CountVerticesOnly = false;
+
+            bool UseExactAlgorithm = true;
+            Console.WriteLine("Use exact algorithm (otherwise aproximate)? [y/N]");
+            string answer2 = Console.ReadLine();
+            if (answer2 == "n" || answer2 == "N")
+                UseExactAlgorithm = false;
+
             string filePath1 = PathService.GetInputFilePath(FileName1);
             string filePath2 = PathService.GetInputFilePath(FileName2);
-            string resultPath = PathService.GetResultFilePath(FileName1, FileName2, CountVerticesOnly, UseExactAlgorithm);
+            string resultPath = PathService.GetResultFilePath(sizes, CountVerticesOnly, UseExactAlgorithm);
             
             var g = CsvFilesService.CreateGraphFromCsv(filePath1);
             var h = CsvFilesService.CreateGraphFromCsv(filePath2);
