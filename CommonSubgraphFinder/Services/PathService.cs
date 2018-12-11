@@ -7,7 +7,7 @@ namespace CommonSubgraphFinder.Services
 {
     public static class PathService
     {
-        public static string GetInputFilePath(string fileName) => $"./../data/{fileName}";
+        public static string GetInputFilePath(string fileName) => $"./../data/Inputs/{fileName}";
 
         public static string GetResultFilePath(string sizes, bool countVerticesOnly, bool useExactAlgorithm)
         {

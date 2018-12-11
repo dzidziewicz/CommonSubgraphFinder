@@ -76,8 +76,14 @@ namespace CommonSubgraphFinder
             Console.WriteLine();
 
             ShowResults(mapping, resultPath);
-
+            ExportResults(g, h, mapping);
             Console.ReadKey();
+        }
+
+        private static void ExportResults(Graph g, Graph h, CommonSubgraphMapping mapping)
+        {
+            var input = new VisualizerInput(g, h, mapping);
+            VisualizerService.ExportToFile(input);
         }
 
         private static void ShowResults(CommonSubgraphMapping mapping, string outputFilePath)
