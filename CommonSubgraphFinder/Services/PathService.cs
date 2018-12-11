@@ -9,12 +9,12 @@ namespace CommonSubgraphFinder.Services
     {
         public static string GetInputFilePath(string fileName) => $"./../data/{fileName}";
 
-        public static string GetResultFilePath(string sizes, bool countVerticesOnly, bool useExactAlgorithm)
+        public static string GetResultFilePath(string outPutFileName, bool countVerticesOnly, bool useExactAlgorithm)
         {
             var graphWeight = countVerticesOnly ? "V" : "VE";
             var algorithmType = useExactAlgorithm ? "exact" : "approx";
             
-            return $"./../data/Results/{sizes}_{algorithmType}_{graphWeight}.csv";
+            return $"./../data/Results/{outPutFileName}_{algorithmType}_{graphWeight}.csv";
         }
     }
 }

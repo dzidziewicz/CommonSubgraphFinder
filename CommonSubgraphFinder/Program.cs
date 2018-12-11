@@ -13,11 +13,13 @@ namespace CommonSubgraphFinder
     {
         private static void Main(string[] args)
         {
-            Console.WriteLine("Provide graph sizes in form A_B  : ");
-            string sizes = Console.ReadLine();
-            string FileName1 = sizes + "_A_Drejer.csv";
-            string FileName2 = sizes + "_B_Drejer.csv";
-
+            Console.WriteLine("Provide name of file with first graph (with extension) : ");
+            string f1 = Console.ReadLine();
+            Console.WriteLine("Provide name of file with second graph (with extension) :  ");
+            string f2= Console.ReadLine();
+            string FileName1 = f1;
+            string FileName2 = f2;
+            string OutputFileName = f1.Split('.')[0] + "_AND_" + f2.Split('.')[0];
             bool CountVerticesOnly = true;
             Console.WriteLine("Count vertices only (otherwise vertices and edges)? [y/N]");
             string answer1 = Console.ReadLine();
@@ -32,7 +34,7 @@ namespace CommonSubgraphFinder
 
             string filePath1 = PathService.GetInputFilePath(FileName1);
             string filePath2 = PathService.GetInputFilePath(FileName2);
-            string resultPath = PathService.GetResultFilePath(sizes, CountVerticesOnly, UseExactAlgorithm);
+            string resultPath = PathService.GetResultFilePath(OutputFileName, CountVerticesOnly, UseExactAlgorithm);
             
             var g = CsvFilesService.CreateGraphFromCsv(filePath1);
             var h = CsvFilesService.CreateGraphFromCsv(filePath2);
@@ -52,7 +54,7 @@ namespace CommonSubgraphFinder
             }
             else
             {
-                Console.WriteLine(modularProduct.VerticesCount / (int)Math.Log(modularProduct.VerticesCount));
+                // Console.WriteLine(modularProduct.VerticesCount / (int)Math.Log(modularProduct.VerticesCount));
                 var (subgraphs, subgraphsMappings) = GraphPartitioner.PartitionGraph(modularProduct, modularProduct.VerticesCount / (int)Math.Log(modularProduct.VerticesCount));
                 for(int i = 0; i < subgraphs.Count; i++)
                 {
