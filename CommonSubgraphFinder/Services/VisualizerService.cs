@@ -13,7 +13,7 @@ namespace CommonSubgraphFinder.Services
             var json = JsonConvert.SerializeObject(input,
                 new JsonSerializerSettings() {ContractResolver = new CamelCasePropertyNamesContractResolver()});
 
-            var result = $"var DATA = '{json}'";
+            var result = $"var DATA = {json}";
 
             File.WriteAllText(OutputPath, result);
         }
