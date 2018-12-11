@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using CommonSubgraphFinder.Models;
+using CommonSubgraphFinder.Services;
 
 namespace CommonSubgraphFinder.MaxClique
 {
@@ -10,11 +11,13 @@ namespace CommonSubgraphFinder.MaxClique
         public HashSet<int> MaxClique { get; private set; }
         public int MaxCliqueWeight { get; private set; }
         private readonly bool _countVerticesOnly;
+        private readonly ConnectivityCheckService _connectivityService;
 
         public MaxCliqueFinder(WeightedGraph graph, bool countVerticesOnly)
         {
             _graph = graph;
             _countVerticesOnly = countVerticesOnly;
+            _connectivityService = new ConnectivityCheckService(graph);
             MaxClique = new HashSet<int>();
         }
 
@@ -70,7 +73,7 @@ namespace CommonSubgraphFinder.MaxClique
         {
             if (_countVerticesOnly)
             {
-                if (R.Count > MaxClique.Count)
+                if (R.Count > MaxClique.Count && _connectivityService.IsConnected(R))
                 {
                     MaxClique = R;
                     MaxCliqueWeight = MaxClique.Count;
@@ -83,7 +86,7 @@ namespace CommonSubgraphFinder.MaxClique
                     return; 
 
                 var cliqueWeight = CalculateCliqueWeight(R);
-                if (cliqueWeight > MaxCliqueWeight)
+                if (cliqueWeight > MaxCliqueWeight && _connectivityService.IsConnected(R))
                 {
                     MaxClique = R;
                     MaxCliqueWeight = cliqueWeight;
