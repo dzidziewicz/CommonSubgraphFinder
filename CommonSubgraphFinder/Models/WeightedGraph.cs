@@ -30,14 +30,6 @@ namespace CommonSubgraphFinder.Models
                 throw new Exception("Invalid vertex index");
             WeightMatrix[vertex, vertex] = weight;
         }
-        public IEnumerable<int> NeighboursOf(int vertex)
-        {
-            for (int u = 0; u < VerticesCount; u++)
-            {
-                if (AdjacencyMatrix[vertex, u])
-                    yield return u;
-            }
-        }
 
         private void FillWeightMatrix(int vertexWeight, int edgeWeight)
         {

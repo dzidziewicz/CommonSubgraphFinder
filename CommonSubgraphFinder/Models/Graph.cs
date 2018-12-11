@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace CommonSubgraphFinder.Models
 {
@@ -38,6 +39,14 @@ namespace CommonSubgraphFinder.Models
             return AdjacencyMatrix[vertex1, vertex2];
         }
 
+        public IEnumerable<int> NeighboursOf(int vertex)
+        {
+            for (int u = 0; u < VerticesCount; u++)
+            {
+                if (AdjacencyMatrix[vertex, u])
+                    yield return u;
+            }
+        }
         protected bool IsVertexIndexValid(int v)
         {
             return v >= 0 && v < VerticesCount;

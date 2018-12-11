@@ -15,7 +15,7 @@ namespace CommonSubgraphFinder.Services
         /// <returns></returns>
         public static WeightedGraph GetModularProductForVertexMaxGraph(Graph g, Graph h)
         {
-            return GetModularProductGraph(g, h, 0, 0, 1);
+            return GetModularProductGraph(g, h, 1, 0, 1);
         }
 
         /// <summary>
